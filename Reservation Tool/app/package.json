@@ -1,0 +1,37 @@
+{
+  "name": "reservation-tool",
+  "version": "1.0.0",
+  "description": "University item reservation tool",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon server.js",
+    "test": "echo \"No tests currently available\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michalzuch/aplikacje-internetowe.git"
+  },
+  "keywords": [
+    "reservation",
+    "tool",
+    "booking",
+    "Node.js",
+    "Express",
+    "sqlite3",
+    "Pug"
+  ],
+  "author": "@michalzuch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michalzuch/aplikacje-internetowe/issues"
+  },
+  "homepage": "https://github.com/michalzuch/aplikacje-internetowe#readme",
+  "dependencies": {
+    "@picocss/pico": "^2.0.6",
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0",
+    "pug": "3.0",
+    "sqlite3": "5.1"
+  }
+}
