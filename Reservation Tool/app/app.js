@@ -29,7 +29,13 @@ app.get('/item/:id', (req, res) => {
     if (error) {
       res.render('error', error_500)
     } else if (row) {
-      res.render('item', { item: row })
+      db.all('SELECT * FROM reservations WHERE item_id = ?', [id], (error, reservations) => {
+        if (error) {
+          res.render('error', error_500)
+        } else {
+          res.render('item', { item: row, reservations: reservations })
+        }
+      })
     } else {
       res.render('error', error_404)
     }

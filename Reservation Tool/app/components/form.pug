@@ -2,19 +2,19 @@ div.grid
     div
         label(for='date')
             strong Date
-        input(type='date' name='date' aria-label='Date', required)
+        input(type='date' id='date' name='date' aria-label='Date', required)
     div
         label(for='time')
             strong Time
-        select(name='time' aria-label='Select a time', required)
+        select(name='time' id='time' aria-label='Select a time', required, disabled)
             option(disabled selected, value='') Select a time
-            option 9:00
-            option 10:00
-            option 11:00
-            option 12:00
-            option 13:00
     div
         label(for='name')
             strong Full Name
         input(name='name' placeholder='Type your name...' autocomplete='given-name' aria-label='Full Name', required)
 input(type='submit' value='Reserve')
+
+script.
+    var reservations = !{JSON.stringify(reservations)};
+
+script(src='/scripts/datePicker.js')

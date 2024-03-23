@@ -9,6 +9,8 @@ html(lang="en")
             mixin itemsGrid(item)
                 include ../components/item-details
             +itemsGrid(item)
-            include ../components/form
+            mixin reservations(reservations)
+                include ../components/form
+            +reservations(reservations)
             include ../components/confirmation
         include ../components/footer
