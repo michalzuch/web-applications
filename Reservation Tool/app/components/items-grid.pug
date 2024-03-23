@@ -1,15 +1,5 @@
 div.grid
-    div
-        button Placeholder
-    div
-        button Placeholder
-    div
-        button Placeholder
-    div
-        button Placeholder
-    div
-        button Placeholder
-    div
-        button Placeholder
-    div
-        button Placeholder
+    each item in items
+        div
+            a(href=`/item/${item.id}`)
+                button #{item.name}
