@@ -1,0 +1,9 @@
+dialog(id='statusDialog', closed)
+    article
+        header
+            button(aria-label='Close' rel='prev' onclick='closeDialog()')
+            p(id='dialogTitle')
+                strong Title
+        p(id='dialogText')
+            | Text
+        ul(id='additionalInfo')

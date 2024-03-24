@@ -1,11 +1,16 @@
 document.querySelector('#reservationForm').addEventListener('submit', async (event) => {
   event.preventDefault()
 
+  const id = document.querySelector('#id').value
+  const date = document.querySelector('#date').value
+  const time = document.querySelector('#time').value
+  const name = document.querySelector('#name').value
+
   const data = new URLSearchParams()
-  data.append('id', document.querySelector('#id').value)
-  data.append('name', document.querySelector('#date').value)
-  data.append('date', document.querySelector('#time').value)
-  data.append('time', document.querySelector('#name').value)
+  data.append('id', id)
+  data.append('name', name)
+  data.append('date', date)
+  data.append('time', time)
 
   const response = await fetch('/reservation', {
     method: 'POST',
@@ -13,8 +18,8 @@ document.querySelector('#reservationForm').addEventListener('submit', async (eve
   })
 
   if (response.ok) {
-    openDialog()
+    openDialog('🗓️ Your reservation is confirmed!', 'You have successfully reserved an item', date, time)
   } else {
-    // Handle the error case
+    openDialog('❌ Something went wrong', 'There was an error saving your reservation', '', '')
   }
 })
