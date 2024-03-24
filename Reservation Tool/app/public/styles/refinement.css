@@ -8,6 +8,11 @@
   text-decoration: none;
 }
 
+article {
+  padding: 4rem;
+  text-align: center;
+}
+
 footer {
   position: absolute;
   bottom: 0;
