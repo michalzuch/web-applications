@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose()
+const bodyParser = require('body-parser')
 
 const app = express()
 const db = new sqlite3.Database('../database/database.db')
@@ -12,6 +13,8 @@ const error_500 = { code: 500, message: 'Internal server error' }
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   db.all('SELECT * FROM items', (error, rows) => {
@@ -44,6 +47,21 @@ app.get('/item/:id', (req, res) => {
 
 app.get('*', (req, res) => {
   res.redirect('/')
+})
+
+app.post('/reservation', (req, res) => {
+  console.log(req)
+  const { id, date, time, name } = req.body
+  const sql = 'INSERT INTO reservations (item_id, guest_name, reservation_date, reservation_time) VALUES (?, ?, ?, ?)'
+  values = [id, name, date, time]
+
+  db.run(sql, values, function (error) {
+    if (error) {
+      res.sendStatus(500)
+    } else {
+      res.sendStatus(200)
+    }
+  })
 })
 
 app.listen(port, () => {

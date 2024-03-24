@@ -1,20 +1,23 @@
-div.grid
-    div
-        label(for='date')
-            strong Date
-        input(type='date' id='date' name='date' aria-label='Date', required)
-    div
-        label(for='time')
-            strong Time
-        select(name='time' id='time' aria-label='Select a time', required, disabled)
-            option(disabled selected, value='') Select a time
-    div
-        label(for='name')
-            strong Full Name
-        input(name='name' placeholder='Type your name...' autocomplete='given-name' aria-label='Full Name', required)
-input(type='submit' value='Reserve')
+form(action='/reservation' method='POST' id='reservationForm')
+    input(type='hidden' id='id' name='id' value=item.id)
+    div.grid
+        div
+            label(for='date')
+                strong Date
+            input(type='date' id='date' name='date' aria-label='Date', required)
+        div
+            label(for='time')
+                strong Time
+            select(name='time' id='time' aria-label='Select a time', required, disabled)
+                option(disabled selected, value='') Select a time
+        div
+            label(for='name')
+                strong Full Name
+            input(id='name' name='name' placeholder='Type your name...' autocomplete='given-name' aria-label='Full Name', required)
+    input(type='submit' value='Reserve')
 
 script.
-    var reservations = !{JSON.stringify(reservations)};
+    var reservations = !{JSON.stringify(reservations)}
 
 script(src='/scripts/datePicker.js')
+script(src='/scripts/dialogHandler.js')

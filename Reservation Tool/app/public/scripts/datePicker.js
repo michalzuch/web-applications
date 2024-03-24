@@ -14,10 +14,11 @@ dateInput.addEventListener('change', () => {
 
     for (let hour = 8; hour < 21; hour++) {
       const option = document.createElement('option')
-      option.value = hour
-      option.textContent = `${hour}:00`
+      hour_string = `${hour}:00`
+      option.value = hour_string
+      option.textContent = hour_string
 
-      if (reservedHours.includes(`${hour}:00`)) {
+      if (reservedHours.includes(hour_string)) {
         option.disabled = true
       }
 
