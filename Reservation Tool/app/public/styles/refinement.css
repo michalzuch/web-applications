@@ -1,0 +1,18 @@
+.grid-button {
+  padding: 1rem;
+  width: 8rem;
+  height: 5rem;
+}
+
+.navbar-brand {
+  text-decoration: none;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+footer p {
+  text-align: center;
+}
