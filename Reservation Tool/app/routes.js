@@ -14,13 +14,23 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/reservations', (req, res) => {
+  db.getAllReservationsFromDatabase((error, reservations) => {
+    if (error) {
+      res.render('error', errors.error_500)
+    } else {
+      res.render('reservations', { reservations: reservations })
+    }
+  })
+})
+
 router.get('/item/:id', (req, res) => {
   const id = req.params.id
   db.getItemDetailsFromDatabase(id, (error, row) => {
     if (error) {
       res.render('error', errors.error_500)
     } else if (row) {
-      db.getReservationsFromDatabase(id, (error, reservations) => {
+      db.getItemReservationsFromDatabase(id, (error, reservations) => {
         if (error) {
           res.render('error', errors.error_500)
         } else {

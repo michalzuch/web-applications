@@ -1,0 +1,10 @@
+div.container
+    each reservation in reservations
+        div
+            article
+                p
+                    strong ##{reservation.id}
+                p Item: #{reservation.item_name}
+                p Name: #{reservation.name}
+                p Date: #{reservation.reservation_date}
+                p Time: #{`${reservation.reservation_time} - ${parseInt(reservation.reservation_time.split(':')) + 1}:00`}

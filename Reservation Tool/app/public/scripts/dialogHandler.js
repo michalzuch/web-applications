@@ -12,9 +12,16 @@ function openDialog(title, text, date, time) {
   if (date !== '' && time !== '') {
     const additionalInfo = statusDialog.querySelector('#additionalInfo')
     const dateString = 'Date: ' + formatDate(date)
-    const timeString = 'Time: ' + time
+    const timeString = 'Time: ' + createHourRange(time)
     additionalInfo.innerHTML = '<li>' + dateString + '</li><li>' + timeString + '</li>'
   }
+}
+
+function createHourRange(hour) {
+  const [startingHour] = hour.split(':')
+  const endingHour = parseInt(startingHour) + 1
+
+  return `${hour} - ${endingHour}:00`
 }
 
 function formatDate(dateString) {
