@@ -1,5 +1,5 @@
-const dateInput = document.getElementById('date')
-const timeSelect = document.getElementById('time')
+const dateInput = document.getElementById('reservation_date')
+const timeSelect = document.getElementById('reservation_time')
 
 dateInput.addEventListener('change', () => {
   const selectedDate = dateInput.value

@@ -2,17 +2,17 @@ function closeDialog() {
   window.location.href = '/'
 }
 
-function openDialog(title, text, date, time) {
+function openDialog(title, text, reservation_date, reservation_time) {
   const statusDialog = document.querySelector('#statusDialog')
   statusDialog.open = true
   const dialogTitle = statusDialog.querySelector('#dialogTitle')
   dialogTitle.innerHTML = '<strong>' + title + '</strong>'
   const dialogText = statusDialog.querySelector('#dialogText')
   dialogText.innerHTML = text
-  if (date !== '' && time !== '') {
+  if (reservation_date !== '' && reservation_time !== '') {
     const additionalInfo = statusDialog.querySelector('#additionalInfo')
-    const dateString = 'Date: ' + formatDate(date)
-    const timeString = 'Time: ' + createHourRange(time)
+    const dateString = 'Date: ' + formatDate(reservation_date)
+    const timeString = 'Time: ' + createHourRange(reservation_time)
     additionalInfo.innerHTML = '<li>' + dateString + '</li><li>' + timeString + '</li>'
   }
 }

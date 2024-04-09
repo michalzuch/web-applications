@@ -1,14 +1,14 @@
 form(action='/reservation' method='POST' id='reservationForm')
-    input(type='hidden' id='id' name='id' value=item.id)
+    input(type='hidden' id='item' name='item' value=item.id)
     div.grid
         div
-            label(for='date')
+            label(for='reservation_date')
                 strong Date
-            input(type='date' id='date' name='date' aria-label='Date', required)
+            input(type='date' id='reservation_date' name='reservation_date' aria-label='Date', required)
         div
-            label(for='time')
+            label(for='reservation_time')
                 strong Time
-            select(name='time' id='time' aria-label='Select a time', required, disabled)
+            select(name='reservation_time' id='reservation_time' aria-label='Select a time', required, disabled)
                 option(disabled selected, value='') Select a time
         div
             label(for='name')
