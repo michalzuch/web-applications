@@ -70,7 +70,11 @@ async function getAllReservationsFromDatabase(callback) {
   const today = new Date().toISOString().split('T')[0]
   try {
     const reservations = await Reservation.findAll({
-      include: Item,
+      include: {
+        model: Item,
+        attributes: ['name'],
+      },
+      raw: true,
       where: {
         reservation_date: {
           [Op.gte]: today,
@@ -80,6 +84,11 @@ async function getAllReservationsFromDatabase(callback) {
         ['reservation_date', 'ASC'],
         [sequelize.literal("TIME(SUBSTR(reservation_time, 1, 2) || ':' || SUBSTR(reservation_time, 4, 2))"), 'ASC'],
       ],
+    })
+
+    reservations.forEach((reservation) => {
+      reservation.item_name = reservation['Item.name']
+      delete reservation['Item.name']
     })
     callback(null, reservations)
   } catch (error) {
