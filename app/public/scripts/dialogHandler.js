@@ -2,6 +2,12 @@ function closeDialog() {
   window.location.href = '/'
 }
 
+function escapeHTML(str) {
+  var div = document.createElement('div')
+  div.appendChild(document.createTextNode(str))
+  return div.innerHTML
+}
+
 function openDialog(title, text, reservation_date, reservation_time) {
   const statusDialog = document.querySelector('#statusDialog')
   statusDialog.open = true
@@ -13,7 +19,7 @@ function openDialog(title, text, reservation_date, reservation_time) {
     const additionalInfo = statusDialog.querySelector('#additionalInfo')
     const dateString = 'Date: ' + formatDate(reservation_date)
     const timeString = 'Time: ' + createHourRange(reservation_time)
-    additionalInfo.innerHTML = '<li>' + dateString + '</li><li>' + timeString + '</li>'
+    additionalInfo.innerHTML = '<li>' + escapeHTML(dateString) + '</li><li>' + escapeHTML(timeString) + '</li>'
   }
 }
 
