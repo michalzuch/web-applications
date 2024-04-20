@@ -1,16 +1,16 @@
 doctype html
 html(lang='en')
     head
-        include ../components/head-metadata
+        include components/head-metadata
         title #{item.name}
     body 
-        include ../components/header
+        include components/header
         main.container-fluid
             mixin itemsGrid(item)
-                include ../components/item-details
+                include components/item-details
             +itemsGrid(item)
             mixin reservations(reservations)
-                include ../components/form
+                include components/form
             +reservations(reservations)
-            include ../components/dialog
-        include ../components/footer
+            include components/dialog
+        include components/footer

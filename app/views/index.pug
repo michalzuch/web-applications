@@ -1,12 +1,12 @@
 doctype html
 html(lang='en')
     head
-        include ../components/head-metadata
+        include components/head-metadata
         title Reservation Tool
     body 
-        include ../components/header
+        include components/header
         main.container
             mixin itemsGrid(items)
-                include ../components/items-grid
+                include components/items-grid
             +itemsGrid(items)
-        include ../components/footer 
+        include components/footer

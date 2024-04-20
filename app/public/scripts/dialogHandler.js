@@ -26,6 +26,5 @@ function createHourRange(hour) {
 
 function formatDate(dateString) {
   const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }
-  const formattedDate = new Date(dateString).toLocaleDateString(undefined, options)
-  return formattedDate
+  return new Date(dateString).toLocaleDateString(undefined, options)
 }
