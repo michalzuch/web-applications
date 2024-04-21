@@ -1,31 +1,63 @@
 const express = require('express')
 const router = express.Router()
 
-const itemController = require('../controllers/itemController.js')
-const reservationController = require('../controllers/reservationController.js')
-const errors = require('../services/errors')
+const { createItem, getItemsList, getItem, updateItem, deleteItem } = require('../controllers/itemController')
 
-router.get('/', async (_, res) => {
+router.post('/items', async (req, res) => {
+  const itemData = req.body
   try {
-    const rows = await itemController.getItemsList()
-    res.render('index', { items: rows })
+    const newItem = await createItem(itemData)
+    res.send(newItem)
   } catch (error) {
-    res.render('error', errors.error_500)
+    res.sendStatus(500)
   }
 })
 
-router.get('/item/:id', async (req, res) => {
+router.get('/items', async (_, res) => {
+  try {
+    const items = await getItemsList()
+    res.send(items)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
+
+router.get('/items/:id', async (req, res) => {
   const id = req.params.id
   try {
-    const row = await itemController.getItemDetails(id)
-    if (row) {
-      const reservations = await reservationController.getItemReservations(id)
-      res.render('item', { item: row, reservations: reservations })
+    const item = await getItem(id)
+    res.send(item)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
+
+router.put('/items/:id', async (req, res) => {
+  const id = req.params.id
+  const itemData = req.body
+  try {
+    const updatedItem = await updateItem(id, itemData)
+    if (updateItem) {
+      res.send(updatedItem)
     } else {
-      res.render('error', errors.error_404)
+      res.sendStatus(404)
     }
   } catch (error) {
-    res.render('error', errors.error_500)
+    res.sendStatus(500)
+  }
+})
+
+router.delete('/items/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const deletedItem = await deleteItem(id)
+    if (deletedItem) {
+      res.send(deletedItem)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    res.sendStatus(500)
   }
 })
 

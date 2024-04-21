@@ -1,4 +1,13 @@
 const { Item } = require('../models/item.js')
+const { Reservation } = require('../models/reservation.js')
+
+async function createItem(itemData) {
+  try {
+    return await Item.create(itemData)
+  } catch (error) {
+    throw error
+  }
+}
 
 async function getItemsList() {
   try {
@@ -8,7 +17,7 @@ async function getItemsList() {
   }
 }
 
-async function getItemDetails(id) {
+async function getItem(id) {
   try {
     return await Item.findByPk(id)
   } catch (error) {
@@ -16,4 +25,38 @@ async function getItemDetails(id) {
   }
 }
 
-module.exports = { getItemsList, getItemDetails }
+async function updateItem(id, itemData) {
+  try {
+    const item = await Item.findByPk(id)
+    if (item) {
+      await item.update(itemData)
+      return item
+    }
+    return null
+  } catch (error) {
+    throw error
+  }
+}
+
+async function deleteItem(id) {
+  try {
+    const item = await Item.findByPk(id)
+    if (item) {
+      const associatedReservations = await Reservation.findAll({ where: { item: id } })
+
+      if (associatedReservations.length > 0) {
+        return 'Cannot delete item with associated reservations'
+      }
+
+      const deletedItem = item
+      await item.destroy()
+      return deletedItem
+    }
+    return null
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+module.exports = { createItem, getItemsList, getItem, updateItem, deleteItem }

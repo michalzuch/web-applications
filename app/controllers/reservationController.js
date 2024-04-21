@@ -1,51 +1,6 @@
-const { Op } = require('sequelize')
-const sequelize = require('../services/databaseSetup')
-const { Item } = require('../models/item')
 const { Reservation } = require('../models/reservation')
 
-async function getAllReservations() {
-  const today = new Date().toISOString().split('T')[0]
-  try {
-    const reservations = await Reservation.findAll({
-      include: {
-        model: Item,
-        attributes: ['name'],
-      },
-      raw: true,
-      where: {
-        reservation_date: {
-          [Op.gte]: today,
-        },
-      },
-      order: [
-        ['reservation_date', 'ASC'],
-        [sequelize.literal("TIME(SUBSTR(reservation_time, 1, 2) || ':' || SUBSTR(reservation_time, 4, 2))"), 'ASC'],
-      ],
-    })
-
-    reservations.forEach((reservation) => {
-      reservation.item_name = reservation['Item.name']
-      delete reservation['Item.name']
-    })
-    return reservations
-  } catch (error) {
-    throw error
-  }
-}
-
-async function getItemReservations(id) {
-  try {
-    return await Reservation.findAll({
-      where: {
-        item: id,
-      },
-    })
-  } catch (error) {
-    throw error
-  }
-}
-
-async function saveReservation(reservationData) {
+async function createReservation(reservationData) {
   try {
     return await Reservation.create(reservationData)
   } catch (error) {
@@ -53,4 +8,47 @@ async function saveReservation(reservationData) {
   }
 }
 
-module.exports = { getAllReservations, getItemReservations, saveReservation }
+async function getReservationsList() {
+  try {
+    return await Reservation.findAll()
+  } catch (error) {
+    throw error
+  }
+}
+
+async function getReservation(id) {
+  try {
+    return await Reservation.findByPk(id)
+  } catch (error) {
+    throw error
+  }
+}
+
+async function updateReservation(id, reservationData) {
+  try {
+    const reservation = await Reservation.findByPk(id)
+    if (reservation) {
+      await reservation.update(reservationData)
+      return reservation
+    }
+    return null
+  } catch (error) {
+    throw error
+  }
+}
+
+async function deleteReservation(id) {
+  try {
+    const reservation = await Reservation.findByPk(id)
+    if (reservation) {
+      const deletedReservation = reservation
+      await reservation.destroy()
+      return deletedReservation
+    }
+    return null
+  } catch (error) {
+    throw error
+  }
+}
+
+module.exports = { createReservation, getReservationsList, getReservation, updateReservation, deleteReservation }

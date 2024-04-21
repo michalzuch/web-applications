@@ -1,39 +1,69 @@
 const express = require('express')
 const router = express.Router()
 
-const itemController = require('../controllers/itemController.js')
-const reservationController = require('../controllers/reservationController.js')
-const errors = require('../services/errors')
+const {
+  createReservation,
+  getReservationsList,
+  getReservation,
+  updateReservation,
+  deleteReservation,
+} = require('../controllers/reservationController.js')
+
+router.post('/reservations', async (req, res) => {
+  const reservationData = req.body
+  try {
+    const newReservation = await createReservation(reservationData)
+    res.send(newReservation)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
 
 router.get('/reservations', async (_, res) => {
   try {
-    const reservations = await reservationController.getAllReservations()
-    res.render('reservations', { reservations: reservations })
+    const reservations = await getReservationsList()
+    res.send(reservations)
   } catch (error) {
-    res.render('error', errors.error_500)
+    res.sendStatus(500)
   }
 })
 
-router.get('/item/:id', async (req, res) => {
+router.get('/reservations/:id', async (req, res) => {
   const id = req.params.id
   try {
-    const row = await itemController.getItemDetails(id)
-    if (row) {
-      const reservations = await reservationController.getItemReservations(id)
-      res.render('item', { item: row, reservations: reservations })
-    } else {
-      res.render('error', errors.error_404)
-    }
-  } catch {
-    res.render('error', errors.error_500)
+    const reservation = await getReservation(id)
+    res.send(reservation)
+  } catch (error) {
+    res.sendStatus(500)
   }
 })
 
-router.post('/reservation', async (req, res) => {
+router.put('/reservations/:id', async (req, res) => {
+  const id = req.params.id
+  const reservationData = req.body
   try {
-    await reservationController.saveReservation(req.body)
-    res.sendStatus(200)
+    const updatedReservation = await updateReservation(id, reservationData)
+    if (updateReservation) {
+      res.send(updatedReservation)
+    } else {
+      res.sendStatus(404)
+    }
   } catch (error) {
+    res.sendStatus(500)
+  }
+})
+
+router.delete('/reservations/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const deletedReservation = await deleteReservation(id)
+    if (deletedReservation) {
+      res.send(deletedReservation)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    console.log(error)
     res.sendStatus(500)
   }
 })
