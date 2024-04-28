@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const apiRoutes = require('./routes/apiRoutes')
+const routes = require('./routes/routes')
 
 const app = express()
 const port = 3000
@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/', apiRoutes)
+app.use('/', routes)
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)

@@ -1,48 +1,26 @@
-const { Op } = require('sequelize')
-const sequelize = require('../services/databaseSetup')
-const { Item } = require('../models/item')
-const { Reservation } = require('../models/reservation')
+async function mapItemIdsToNames(reservations, items) {
+  const itemsMap = new Map(items.map((item) => [item.id, item.name]))
+  reservations.forEach((reservations) => {
+    const itemName = itemsMap.get(reservations.item)
+    if (itemName) {
+      reservations.item_name = itemName
+    }
+  })
 
-async function getCurrentReservations() {
+  return reservations
+}
+
+async function filterReservationsByDate(reservations) {
   const today = new Date().toISOString().split('T')[0]
-  try {
-    const reservations = await Reservation.findAll({
-      include: {
-        model: Item,
-        attributes: ['name'],
-      },
-      raw: true,
-      where: {
-        reservation_date: {
-          [Op.gte]: today,
-        },
-      },
-      order: [
-        ['reservation_date', 'ASC'],
-        [sequelize.literal("TIME(SUBSTR(reservation_time, 1, 2) || ':' || SUBSTR(reservation_time, 4, 2))"), 'ASC'],
-      ],
-    })
-
-    reservations.forEach((reservation) => {
-      reservation.item_name = reservation['Item.name']
-      delete reservation['Item.name']
-    })
-    return reservations
-  } catch (error) {
-    throw error
-  }
+  return reservations.filter((reservation) => reservation.reservation_date >= today)
 }
 
-async function getItemReservations(id) {
-  try {
-    return await Reservation.findAll({
-      where: {
-        item: id,
-      },
-    })
-  } catch (error) {
-    throw error
-  }
+async function filterReservationsByItem(reservations, itemID) {
+  return await reservations.filter((reservation) => parseInt(reservation.item) === parseInt(itemID))
 }
 
-module.exports = { getCurrentReservations, getItemReservations }
+module.exports = {
+  mapItemIdsToNames,
+  filterReservationsByDate,
+  filterReservationsByItem,
+}
