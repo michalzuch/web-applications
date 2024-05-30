@@ -4,6 +4,7 @@ async function createReservation(reservationData) {
   try {
     return await Reservation.create(reservationData)
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -12,6 +13,7 @@ async function getReservationsList() {
   try {
     return await Reservation.findAll()
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -20,6 +22,7 @@ async function getReservation(id) {
   try {
     return await Reservation.findByPk(id)
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -33,6 +36,7 @@ async function updateReservation(id, reservationData) {
     }
     return null
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -47,6 +51,7 @@ async function deleteReservation(id) {
     }
     return null
   } catch (error) {
+    console.error(error)
     throw error
   }
 }

@@ -5,6 +5,7 @@ async function createItem(itemData) {
   try {
     return await Item.create(itemData)
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -13,6 +14,7 @@ async function getItemsList() {
   try {
     return await Item.findAll()
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -21,6 +23,7 @@ async function getItem(id) {
   try {
     return await Item.findByPk(id)
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -34,6 +37,7 @@ async function updateItem(id, itemData) {
     }
     return null
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
@@ -54,7 +58,7 @@ async function deleteItem(id) {
     }
     return null
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }
